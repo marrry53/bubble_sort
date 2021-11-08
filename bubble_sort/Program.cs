@@ -7,20 +7,81 @@ namespace bubble_sort
         static Random rnd = new Random();
         static void Main(string[] args)
         {
+            dll.list();
             //bubble.bubblesort();
             //qsd.quicksortdom();
-            qs.quicksortSmart();
+            //qs.quicksortSmart();
             //xmpl.recursion();
             //exmpl.intermezzo();
             Console.ReadKey();
         }
+        class dll
+        {
+            public static void list()
+            {
+                int[] x = { 5, 1, 9, 4 };
+                //           1   4  5   9
+                for (int i = 0; i < x.Length; i++)
+                {
+                    node.add2orderedlist(x[i]);
+                }
+            }
+        }
+
+        class node
+        {
+            //object description (cooking recipe, blueprint)
+            //properties
+            int v;
+            node prev, nxt;
+            //methods
+            //constructor
+
+            //*********************************************************
+
+            //static
+            static node head, tail;
+
+            /// <summary>
+            /// add v to list in such a way that it stays ordered asc
+            /// and return head
+            /// </summary>
+            public static node add2orderedlist(int v)
+            {
+                node n = new node();
+                n.v = v;
+                if (head == null)
+                {
+                    head = n; tail = n;
+                }
+                else
+                {
+                    if (n.v <= head.v)
+                    {
+                        head.prev = n;
+                        n.nxt = head;
+                        head = n;
+                    }
+                }
+                return head;
+            }
+        }
+
+
         class qs
         {
             //hoare 1959
             // sort(x,start,end);
             public static void quicksortSmart()
             {
-                int[] x = new int[] { 5, 2, 7, 3, 9, 3, 0, 2, 8 };
+                int a = 5;
+                int min = 0;
+                int max = 10;
+
+                //int[] x = generate(a, min, max);
+
+                int[] x = new int[] { 2, 5 };
+                //int[] x = new int[] { 5, 2, 7, 3, 9, 3, 0, 2, 8 };
                 Console.WriteLine("Unsorted: ");
                 printarray(x);
                 quicksort(x, 0, x.Length - 1);
@@ -89,24 +150,33 @@ namespace bubble_sort
             //              L        (search > pivot)
             //
             // pivot is in the right location
-            //
-            // piece before  and after in recursion
-            // sort(x,beginning,right-1);
-            // sort(x,right+1,end);
-            // 
-            // stopcondition
-
+            /// <summary>
+            /// sort  x asc from beginning to end
+            /// </summary>
+            ///  <alcho>
+            ///  while loop checking left <= right
+            ///  x[left] ++ if condition of while is true, left smaller then pivot
+            ///  or hasn't reached end
+            ///  x[right]-- if condition is true
+            ///  when right greater left, swap right and left
+            ///  put pivot in right place
+            /// divide pieces of array x before  and after right in recursion
+            /// sort(x,beginning,right-1);
+            /// sort(x,right+1,end);
+            /// stopcondition = beginning greater or equal end then return x
+            ///</alcho>
             public static int[] quicksort(int[] x, int beginning, int end)
             {
                 if (beginning >= end) return x;
                 int pivot = x[beginning];
                 int left = beginning + 1;
                 int right = end;
-                while (left < right)
+                while (left <= right)
                 {
-                    while (x[left] <= pivot)
+                    while (x[left] <= pivot && left < end)
                     {
                         left++;
+
                     }
                     while (x[right] > pivot)
                     {
@@ -127,6 +197,15 @@ namespace bubble_sort
                 int temp = x[right];
                 x[right] = x[left];
                 x[left] = temp;
+            }
+            public static int[] generate(int a, int min, int max)
+            {
+                int[] x = new int[a];
+                for (int i = 0; i < a; i++)
+                {
+                    x[i] = rnd.Next(min, max);
+                }
+                return x;
             }
 
             public static int[] printarray(int[] x)
