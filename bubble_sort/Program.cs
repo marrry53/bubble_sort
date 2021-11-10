@@ -46,6 +46,14 @@ namespace bubble_sort
             /// add v to list in such a way that it stays ordered asc
             /// and return head
             /// </summary>
+            /// <algo>
+            ///  5 , 1 , 9 , 4
+            ///  value <= head.value
+            ///  value > tail.value
+            ///  value somewhere in between: start at the head and 
+            ///        find the node that has a higher value and
+            ///        take care that all prev's and nxt's are valid.
+            /// </algo>
             public static node add2orderedlist(int v)
             {
                 node n = new node();
@@ -56,11 +64,25 @@ namespace bubble_sort
                 }
                 else
                 {
+                    //before head
                     if (n.v <= head.v)
                     {
                         head.prev = n;
                         n.nxt = head;
                         head = n;
+                    }
+                    else
+                    {
+                        //behind tail
+                        if (n.v > tail.v)
+                        {
+
+                        }
+                        else
+                        {
+                            //somewhere in between
+
+                        }
                     }
                 }
                 return head;
