@@ -20,11 +20,16 @@ namespace bubble_sort
             public static void list()
             {
                 int[] x = { 5, 1, 9, 4 };
-                //           1   4  5   9
+                //           1   4  5   
+                qs.printarray(x);
                 for (int i = 0; i < x.Length; i++)
                 {
                     node.add2orderedlist(x[i]);
                 }
+                node.add2orderedlist(7);
+                int[]y = node.read_from_head_to_tail();
+                qs.printarray(y);
+                // 1 4 5 7 9
             }
         }
 
@@ -53,6 +58,11 @@ namespace bubble_sort
             ///  value somewhere in between: start at the head and 
             ///        find the node that has a higher value and
             ///        take care that all prev's and nxt's are valid.
+            ///     1   5   9
+            ///     4
+            ///
+            ///     1  3  5  7  9
+            ///     7
             /// </algo>
             public static node add2orderedlist(int v)
             {
@@ -76,12 +86,25 @@ namespace bubble_sort
                         //behind tail
                         if (n.v > tail.v)
                         {
-
+                            tail.nxt = n;
+                            n.prev = tail;
+                            tail = n;
                         }
                         else
                         {
+                            //look for the node that comes after me...
                             //somewhere in between
-
+                            node after = head.nxt;
+                            while (n.v > after.v)
+                            {
+                                after = after.nxt;
+                            }
+                            // Insert the new node before this one...
+                            node before = after.prev;
+                            before.nxt = n;
+                            after.prev = n;
+                            n.prev = before;
+                            n.nxt = after;
                         }
                     }
                 }
