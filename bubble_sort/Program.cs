@@ -15,38 +15,34 @@ namespace bubble_sort
             //exmpl.intermezzo();
             Console.ReadKey();
         }
+        
         class dll
         {
             public static void list()
             {
                 int[] x = { 5, 1, 9, 4 };
-                //           1   4  5   
+                //           1   4  5   9
+                Console.WriteLine("array before moving stuff");
                 qs.printarray(x);
+                lijst L= new lijst();
                 for (int i = 0; i < x.Length; i++)
                 {
-                    node.add2orderedlist(x[i]);
+                    L.add2orderedlist(x[i]);
                 }
-                node.add2orderedlist(7);
-                int[]y = node.read_from_head_to_tail();
+                L.add2orderedlist(7);
+                int[] y = L.read_from_head_to_tail();
+                Console.WriteLine("array after moving stuff plus 7");
                 qs.printarray(y);
                 // 1 4 5 7 9
             }
         }
 
-        class node
+        class lijst
         {
-            //object description (cooking recipe, blueprint)
-            //properties
-            int v;
-            node prev, nxt;
-            //methods
-            //constructor
-
-            //*********************************************************
-
-            //static
-            static node head, tail;
-
+            //object description
+            //props
+            node head, tail;
+            //func
             /// <summary>
             /// add v to list in such a way that it stays ordered asc
             /// and return head
@@ -64,10 +60,9 @@ namespace bubble_sort
             ///     1  3  5  7  9
             ///     7
             /// </algo>
-            public static node add2orderedlist(int v)
+            public node add2orderedlist(int v)
             {
-                node n = new node();
-                n.v = v;
+                node n = new node(v);
                 if (head == null)
                 {
                     head = n; tail = n;
@@ -110,6 +105,66 @@ namespace bubble_sort
                 }
                 return head;
             }
+            /// <summary>
+            /// put all elements of node in array
+            /// </summary>
+            /// <algo>
+            /// declare int length and store length of array with get_count function
+            /// declare array result with length from get_count
+            /// start at the head
+            /// when n isn't null
+            /// put value of n.v in position of result[count]
+            /// move to next node and increase count
+            /// return result
+            /// </algo>
+            public int[] read_from_head_to_tail()
+            {
+                int length = get_count();
+                int[] result = new int[length];
+                node n = head;
+                int count = 0;
+                while (n != null)
+                {
+                    result[count++] = n.v;
+                    n = n.nxt;
+                }
+                return result;
+            }
+            /// <summary>
+            /// count nodes to define length
+            /// </summary>
+            /// <algo>
+            /// start at the head
+            /// declare count
+            /// when n isn't null
+            /// increase count and move to next node
+            /// return count
+            /// </algo>
+            public int get_count()
+            {
+                node n = head;
+                int count = 0;
+                while (n != null)
+                {
+                    count++;
+                    n = n.nxt;
+                }
+                return count;
+            }
+            //constructor
+        }
+
+        class node
+        {
+            //object description (cooking recipe, blueprint)
+            //properties
+            public int v;
+            public node prev, nxt;
+            //constructor
+            public node(int v)
+            {
+                this.v=v;
+            }
         }
 
 
@@ -123,9 +178,9 @@ namespace bubble_sort
                 int min = 0;
                 int max = 10;
 
-                //int[] x = generate(a, min, max);
+                int[] x = generate(a, min, max);
 
-                int[] x = new int[] { 2, 5 };
+                //int[] x = new int[] { 2, 5 };
                 //int[] x = new int[] { 5, 2, 7, 3, 9, 3, 0, 2, 8 };
                 Console.WriteLine("Unsorted: ");
                 printarray(x);
